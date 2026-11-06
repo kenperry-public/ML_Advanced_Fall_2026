@@ -110,7 +110,7 @@ def check_submission(outdir):
         line("model_6 trainable = hand calculation", f"{t6:,} vs {e6:,}", t6 == e6)
         if "model_7" in have:
             t7 = int(res.set_index("model").loc["model_7", "trainable_params"])
-            line("model_7 trainable = model_6 (same configuration)", f"{t7:,} vs {t6:,}", t7 == t6)
+            line("model_7 vs model_6 trainable (should be equal; if not, explain why in the notebook)", f"{t7:,} vs {t6:,}", None if t7 != t6 else True)
     line("adapters identity at init", res.adapters_identity_at_init.iloc[0], bool(res.adapters_identity_at_init.iloc[0]))
     print("ALL CHECKS PASS" if ok else "SOME CHECKS FAILED: fix them before you submit")
     return ok

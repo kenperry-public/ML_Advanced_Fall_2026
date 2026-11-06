@@ -15,7 +15,7 @@ import numpy as np, pandas as pd
 SEED = 7773                       # fixed for everybody: do not change
 FRACTIONS = (0.70, 0.15, 0.15)    # train / validation / test
 LABELS = {"negative": 0, "neutral": 1, "positive": 2}
-MODELS = ["model_1", "model_2", "model_3", "model_4", "model_5", "model_6"]   # Models 1 to 6 of the assignment
+MODELS = ["model_1", "model_2", "model_3", "model_4", "model_5", "model_6", "model_7"]   # Models 1 to 7 of the assignment
 SUBSETS = {"allagree": "Sentences_AllAgree.txt", "75agree": "Sentences_75Agree.txt",
            "66agree": "Sentences_66Agree.txt", "50agree": "Sentences_50Agree.txt"}
 
@@ -58,7 +58,7 @@ def split_fingerprint(test):
 
 
 def write_submission(outdir, predictions, trainable_params, toolkit, expected_trainable_lora, adapters_identity_at_init, seconds=None):
-    """predictions: dict model_1..model_6 -> sequence of predicted labels (0/1/2), one per TEST example, in the order of load_split()'s test.
+    """predictions: dict model_1..model_7 -> sequence of predicted labels (0/1/2), one per TEST example, in the order of load_split()'s test.
     trainable_params: dict model name -> int, counted from your model (parameters with requires_grad). seconds: optional dict model -> training seconds.
     Writes results.csv, predictions.csv, environment.txt."""
     _, _, test = load_split()
@@ -108,6 +108,9 @@ def check_submission(outdir):
     if "model_6" in have:
         t6 = int(res.set_index("model").loc["model_6", "trainable_params"]); e6 = int(res.expected_trainable_lora.iloc[0])
         line("model_6 trainable = hand calculation", f"{t6:,} vs {e6:,}", t6 == e6)
+        if "model_7" in have:
+            t7 = int(res.set_index("model").loc["model_7", "trainable_params"])
+            line("model_7 trainable = model_6 (same configuration)", f"{t7:,} vs {t6:,}", t7 == t6)
     line("adapters identity at init", res.adapters_identity_at_init.iloc[0], bool(res.adapters_identity_at_init.iloc[0]))
     print("ALL CHECKS PASS" if ok else "SOME CHECKS FAILED: fix them before you submit")
     return ok

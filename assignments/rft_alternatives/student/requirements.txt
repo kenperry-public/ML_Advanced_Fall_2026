@@ -1,0 +1,5 @@
+trl==0.14.0
+transformers==4.48.3
+datasets
+accelerate
+numpy
